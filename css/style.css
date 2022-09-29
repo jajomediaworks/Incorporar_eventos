@@ -8,7 +8,7 @@ h1, h1 {
     font-size: 3.5rem;}
   }
 :root {
-  --primary:#101010;
+  --primary:#222222;
   /* --primary:#161616; */
   --primary-yellow:#D58E02;
 }
@@ -26,7 +26,7 @@ body.authentication-bg {
   height: 600px;
 }
 
-.bg-yellow{background-color: var(--primary-yellow); color: #000;}
+.bg-yellow{background-color: var(--primary-yellow); color: #000}
 .h-100{height: 100%;}
 .border-h{height: .05rem; border-bottom: 2px solid #fff; margin: .85rem 0 2rem 0; width: 20%;}
   .box-body {
@@ -132,3 +132,7 @@ body.authentication-bg {
 
   .nav-link{color: #fff; font-family: 'Antonio'; text-transform: uppercase;}
   .nav-link:hover{color: var(--primary-yellow);}
+
+  .display-n{display: none !important}
+
+  

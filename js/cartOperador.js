@@ -13,8 +13,11 @@ const cantidadTotal = document.getElementById('cantidadTotal')
 
 let carrito = [] // variable de un array vacio para agregar los productos al carrito
 // Despues del carrito agregamos localstorage, 
+
+
 document.addEventListener('DOMContentLoaded', () => { //una vez que este cargado el documento agregamos el localstorage
     carrito =  localStorage.getItem('carrito') && JSON.parse(localStorage.getItem('carrito'));  
+    document.getElementById("countCart").classList.remove ("d-none");
     actualizarCarrito();
 })
 
@@ -22,6 +25,8 @@ botonVaciar.addEventListener('click', () => {
     carrito.length = 0
     countCart.innerText = carrito.length; // Borrar opcional
     precioTotal.innerText = carrito.length = 0;
+    document.getElementById("countCart").classList.add ("d-none");
+
     actualizarCarrito();
 })
 
@@ -46,8 +51,20 @@ stockProductos.forEach((producto) => {
   const boton = document.getElementById(`agregar${producto.id}`) 
  
     boton.addEventListener('click', () => { // Agregamos un evento que ejecute la funtion agragarAlcarrito
-        agregarAlcarrito(producto.id)
+        agregarAlcarrito(producto.id);
+        document.getElementById("countCart").classList.remove ("d-none");
+        Toastify({
+            text: `${producto.titulo} fue agregado al carrito $ ${producto.precio}`,
+            duration: 3000,
+            style: {
+              background: "#D58E02",
+              border: "1px solid #FFD90A",
+              color: "#000" 
+            },
+          }).showToast();
     })
+
+
 });
 
 
@@ -57,18 +74,21 @@ const agregarAlcarrito = (prodId) => {
     const existe = carrito.some (prod => prod.id === prodId) //comprobar si el elemento ya existe en el carro
     if (existe) { // iteramos un nuevo arreglo 
         const prod = carrito.map ( prod => { //.map va encontrar en curso que ya esta agregado y le va sumar la cantidad
-           prod.id === prodId && prod.cantidad++ // OPERADOR TERNARIO
+           prod.id === prodId && prod.cantidad++;
+           // OPERADOR TERNARIO
         })
+
+          
     }else{ // En caso de que la cantidad sea solo una se va agregar
         const item = stockProductos.find((prod) => prod.id === prodId);
         carrito.push(item); // una vezz hecho el push tenemos que seleccionar el boton agregar${producto.id}
     }
 
-
     actualizarCarrito(); 
 }
 
 // ELIMINAR EL CARRITO
+
 const eliminarDelCarrito = (prodId) => { // Para eliminar el producto del carrito utilizamos el metodo find
     const item = carrito.find((prod) => prod.id === prodId) // Obtenemos el id del producto
 
@@ -78,6 +98,7 @@ const eliminarDelCarrito = (prodId) => { // Para eliminar el producto del carrit
     
     countCart.innerText = carrito.length; // BORRAR OPCIONAL
     // precioTotal.innerText = carrito.length;
+
     actualizarCarrito()
 }
 const actualizarCarrito = () => {
@@ -104,7 +125,7 @@ const actualizarCarrito = () => {
             </div>
             <div class="text-end py-2">
                 <div>
-                <a class="text-warning" href="#" onclick ="eliminarDelCarrito(${prod.id})"><span class="material-icons-round"> delete_forever</span></a>
+                <a id="eliminarDelCarrito" class="text-warning" href="#" onclick ="eliminarDelCarrito(${prod.id})"><span class="material-icons-round"> delete_forever</span></a>
                 </div>
             </div>
         </div>`
@@ -117,6 +138,7 @@ const actualizarCarrito = () => {
 /*         localStorage.setItem('carrito', JSON.stringify('carrito'))
  */
         countCart.innerText = carrito.length;
+
 
         precioTotal.innerText = carrito.reduce((acc, prod) => acc + prod.cantidad * prod.precio, 0)
 
